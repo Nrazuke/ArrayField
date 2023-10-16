@@ -3372,8 +3372,8 @@ function ArrayFieldLibrary:Destroy()
 	ArrayField:Destroy()
 end
 
-function ArrayFieldLibrary:Create()
-	ArrayField:Create()
+function ArrayFieldLibrary:CreateWindow()
+    ArrayField:CreateCreateWindow()
 end
 
 Topbar.ChangeSize.MouseButton1Click:Connect(function()
