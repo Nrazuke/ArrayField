@@ -3372,6 +3372,10 @@ function ArrayFieldLibrary:Destroy()
 	ArrayField:Destroy()
 end
 
+function ArrayFieldLibrary:Create()
+	ArrayField:Create()
+end
+
 Topbar.ChangeSize.MouseButton1Click:Connect(function()
 	if Debounce then return end
 	if Minimised then
