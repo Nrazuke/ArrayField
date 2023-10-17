@@ -114,7 +114,6 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = game:GetService('Players').LocalPlayer
-local TextService = game:GetService("TextService") 
 
 -- Interface Management
 local ArrayField = game:GetObjects("rbxassetid://13853811008")[1]
