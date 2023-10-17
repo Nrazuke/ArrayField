@@ -3338,6 +3338,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				Button.Name = name
 				Button.Parent = PromptUI.Buttons -- saving memory
 				Button.Size = UDim2.fromOffset(Button.TextLabel.TextBounds.X + 24, 30)
+				Button.Position = UDim2.fromScale(0.5, 0.5)
 			end
 		end
 
