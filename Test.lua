@@ -3297,7 +3297,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 	wait(0.1)
 	TweenService:Create(Topbar.Hide, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
 	wait(0.3)
-	function Window:Prompt(PromptSettings)
+function Window:Prompt(PromptSettings)
 		local PromptUI = Prompt.Prompt
 		Prompt.Visible = true
 		Prompt.BackgroundTransparency = 1
@@ -3320,7 +3320,6 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 
 		if PromptSettings.Actions then
 			for name,info in pairs(PromptSettings.Actions) do
-				print(info)
 				local Button = PromptUI.Buttons.Template:Clone()
 				Button.TextLabel.Text = info.Name
 				Button.Interact.MouseButton1Up:Connect(function()
@@ -3329,7 +3328,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 						clicked = true
 						if not Success then
 							ClosePrompt()
-							print("ArrayField | "..info.Name.." Callback Error " ..tostring(Response))
+							print("Rayfield | "..info.Name.." Callback Error " ..tostring(Response))
 						else
 							ClosePrompt()
 						end
@@ -3366,6 +3365,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 	end
 	return Window
 end
+
 
 
 function ArrayFieldLibrary:Destroy()
