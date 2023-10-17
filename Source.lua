@@ -3319,7 +3319,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 		PromptUI.Title.Text = PromptSettings.Title or ''
 
 		if PromptSettings.Actions then
-			for name,info in pairs(PromptSettings.Actions) do
+			for name, info in pairs(PromptSettings.Actions) do
 				print(info)
 				local Button = PromptUI.Buttons.Template:Clone()
 				Button.TextLabel.Text = info.Name
@@ -3329,7 +3329,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 						clicked = true
 						if not Success then
 							ClosePrompt()
-							print("ArrayField | "..info.Name.." Callback Error " ..tostring(Response))
+							print("ArrayField | " .. info.Name .. " Callback Error " .. tostring(Response))
 						else
 							ClosePrompt()
 						end
@@ -3338,6 +3338,9 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				Button.Name = name
 				Button.Parent = PromptUI.Buttons -- saving memory
 				Button.Size = UDim2.fromOffset(Button.TextLabel.TextBounds.X + 24, 30)
+				
+				-- Center the button horizontally
+				Button.Position = UDim2.new(0.5, -Button.Size.X.Offset / 2, 0, 0)
 			end
 		end
 
