@@ -3311,22 +3311,19 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 		PromptUI.Buttons.Template.Visible = false
 		PromptUI.Buttons.Template.TextLabel.TextTransparency = 1
 		PromptUI.Buttons.Template.UIStroke.Transparency = 1
-		PromptUI.Button.Position = UDim2.fromScale(0.5, 0.5)
-		PromptUI.Button.AnchorPoint = Vector2.new(0.5, 0.5)
+		--PromptUI.Buttons.Middle.Visible = false
+		--PromptUI.Buttons.Middle.TextLabel.TextTransparency = 1
+		--PromptUI.Buttons.Middle.UIStroke.Transparency = 1
+
 		PromptUI.Content.Text = PromptSettings.Content
 		PromptUI.Sub.Text = PromptSettings.SubTitle or ''
 		PromptUI.Title.Text = PromptSettings.Title or ''
-	
+
 		if PromptSettings.Actions then
 			for name,info in pairs(PromptSettings.Actions) do
+				print(info)
 				local Button = PromptUI.Buttons.Template:Clone()
 				Button.TextLabel.Text = info.Name
-	
-				-- Center the button.
-				local ButtonSize = Button.TextLabel.TextBounds.Size
-				local PromptCenter = PromptUI.AbsolutePosition + (PromptUI.Size / 2)
-				Button.Position = PromptCenter - (ButtonSize / 2)
-	
 				Button.Interact.MouseButton1Up:Connect(function()
 					if not clicked then
 						local Success, Response = pcall(info.Callback)
@@ -3344,7 +3341,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				Button.Size = UDim2.fromOffset(Button.TextLabel.TextBounds.X + 24, 30)
 			end
 		end
-	
+
 		TweenService:Create(Prompt, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = .5}):Play()
 		wait(.2)
 		TweenService:Create(PromptUI, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundTransparency = 0,Size = UDim2.new(0,350,0,150)}):Play()
