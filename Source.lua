@@ -3311,7 +3311,8 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 		PromptUI.Buttons.Template.Visible = false
 		PromptUI.Buttons.Template.TextLabel.TextTransparency = 1
 		PromptUI.Buttons.Template.UIStroke.Transparency = 1
-	
+		PromptUI.Button.Position = UDim2.fromScale(0.5, 0.5)
+		PromptUI.Button.AnchorPoint = Vector2.new(0.5, 0.5)
 		PromptUI.Content.Text = PromptSettings.Content
 		PromptUI.Sub.Text = PromptSettings.SubTitle or ''
 		PromptUI.Title.Text = PromptSettings.Title or ''
