@@ -3354,14 +3354,14 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 			for _,button in pairs(PromptUI.Buttons:GetChildren()) do
 				if button.Name ~= 'Template' and button.Name ~= 'Middle' and button:IsA('Frame') then
 					button.Visible = true
-					TweenService:Create(button.UIStroke,TweenInfo.new(0.35, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
-					TweenService:Create(button.TextLabel,TweenInfo.new(0.35, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+					TweenService:Create(button.UIStroke,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+					TweenService:Create(button.TextLabel,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 					wait(.8)
 				end
 			end
 		else
-			TweenService:Create(PromptUI.Buttons.Middle.UIStroke,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
-			TweenService:Create(PromptUI.Buttons.Middle.TextLabel,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			--TweenService:Create(PromptUI.Buttons.Middle.UIStroke,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			--TweenService:Create(PromptUI.Buttons.Middle.TextLabel,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 		end
 	end
 	return Window
