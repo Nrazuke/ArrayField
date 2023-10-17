@@ -3319,8 +3319,17 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 		PromptUI.Title.Text = PromptSettings.Title or ''
 
 		if PromptSettings.Actions then
-			for name,info in pairs(PromptSettings.Actions) do
-				print(info)
+			-- Calculate the total width of all buttons
+			local totalButtonWidth = 0
+		
+			for _, info in pairs(PromptSettings.Actions) do
+				totalButtonWidth = totalButtonWidth + info.Name.TextBounds.X + 24
+			end
+		
+			-- Calculate the position of the first button
+			local xOffset = (PromptUI.Buttons.AbsoluteSize.X - totalButtonWidth) / 2
+		
+			for name, info in pairs(PromptSettings.Actions) do
 				local Button = PromptUI.Buttons.Template:Clone()
 				Button.TextLabel.Text = info.Name
 				Button.Interact.MouseButton1Up:Connect(function()
@@ -3329,7 +3338,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 						clicked = true
 						if not Success then
 							ClosePrompt()
-							print("ArrayField | "..info.Name.." Callback Error " ..tostring(Response))
+							print("ArrayField | " .. info.Name .. " Callback Error " .. tostring(Response))
 						else
 							ClosePrompt()
 						end
@@ -3337,14 +3346,11 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				end)
 				Button.Name = name
 				Button.Parent = PromptUI.Buttons -- saving memory
-				
-				-- Calculate the X position to center the button
-				local buttonWidth = Button.TextLabel.TextBounds.X + 24
-				local parentWidth = PromptUI.Buttons.AbsoluteSize.X
-				local middleX = (parentWidth - buttonWidth) / 2
-				
-				Button.Position = UDim2.new(UDim.new(0, middleX), UDim.new(0, 0))
-				Button.Size = UDim2.fromOffset(buttonWidth, 30)
+		
+				-- Set the button's position
+				Button.Position = UDim2.new(0, xOffset, 0, 0)
+		
+				xOffset = xOffset + info.Name.TextBounds.X + 24
 			end
 		end
 
