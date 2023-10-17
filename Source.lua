@@ -3318,41 +3318,42 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 		PromptUI.Sub.Text = PromptSettings.SubTitle or ''
 		PromptUI.Title.Text = PromptSettings.Title or ''
 
-		if PromptSettings.Actions then
-			-- Calculate the total width of all buttons
-			local totalButtonWidth = 0
-		
-			for _, info in pairs(PromptSettings.Actions) do
-				totalButtonWidth = totalButtonWidth + info.Name.TextBounds.X + 24
-			end
-		
-			-- Calculate the position of the first button
-			local xOffset = (PromptUI.Buttons.AbsoluteSize.X - totalButtonWidth) / 2
-		
-			for name, info in pairs(PromptSettings.Actions) do
-				local Button = PromptUI.Buttons.Template:Clone()
-				Button.TextLabel.Text = info.Name
-				Button.Interact.MouseButton1Up:Connect(function()
-					if not clicked then
-						local Success, Response = pcall(info.Callback)
-						clicked = true
-						if not Success then
-							ClosePrompt()
-							print("ArrayField | " .. info.Name .. " Callback Error " .. tostring(Response))
-						else
-							ClosePrompt()
-						end
-					end
-				end)
-				Button.Name = name
-				Button.Parent = PromptUI.Buttons -- saving memory
-		
-				-- Set the button's position
-				Button.Position = UDim2.new(0, xOffset, 0, 0)
-		
-				xOffset = xOffset + info.Name.TextBounds.X + 24
-			end
-		end
+if PromptSettings.Actions then
+    -- Calculate the total width of all buttons
+    local totalButtonWidth = 0
+
+    for _, info in pairs(PromptSettings.Actions) do
+        totalButtonWidth = totalButtonWidth + info.Name.TextBounds.X + 24
+    end
+
+    -- Calculate the position to center-align the buttons
+    local xOffset = (PromptUI.Buttons.AbsoluteSize.X - totalButtonWidth) / 2
+
+    for name, info in pairs(PromptSettings.Actions) do
+        local Button = PromptUI.Buttons.Template:Clone()
+        Button.TextLabel.Text = info.Name
+        Button.Interact.MouseButton1Up:Connect(function()
+            if not clicked then
+                local Success, Response = pcall(info.Callback)
+                clicked = true
+                if not Success then
+                    ClosePrompt()
+                    print("ArrayField | " .. info.Name .. " Callback Error " .. tostring(Response))
+                else
+                    ClosePrompt()
+                end
+            end
+        })
+        Button.Name = name
+        Button.Parent = PromptUI.Buttons
+
+        -- Set the button's position
+        Button.Position = UDim2.new(0, xOffset, 0, 0)
+
+        xOffset = xOffset + info.Name.TextBounds.X + 24
+    end
+end
+
 
 		TweenService:Create(Prompt, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = .5}):Play()
 		wait(.2)
