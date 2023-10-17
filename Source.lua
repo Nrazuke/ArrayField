@@ -3311,8 +3311,8 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 		PromptUI.Buttons.Template.TextLabel.TextTransparency = 1
 		PromptUI.Buttons.Template.UIStroke.Transparency = 1
 		PromptUI.Buttons.Middle.Visible = false
-		PromptUI.Buttons.Middle.TextLabel.TextTransparency = 1
-		PromptUI.Buttons.Middle.UIStroke.Transparency = 1
+		--PromptUI.Buttons.Middle.TextLabel.TextTransparency = 1
+		--PromptUI.Buttons.Middle.UIStroke.Transparency = 1
 
 		PromptUI.Content.Text = PromptSettings.Content
 		PromptUI.Sub.Text = PromptSettings.SubTitle or ''
@@ -3363,8 +3363,8 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				end
 			end
 		else
-			TweenService:Create(PromptUI.Buttons.Middle.UIStroke,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
-			TweenService:Create(PromptUI.Buttons.Middle.TextLabel,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			--TweenService:Create(PromptUI.Buttons.Middle.UIStroke,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			--TweenService:Create(PromptUI.Buttons.Middle.TextLabel,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 		end
 	end
 	return Window
