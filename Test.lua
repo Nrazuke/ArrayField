@@ -114,12 +114,11 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = game:GetService('Players').LocalPlayer
-
+local TextService = game:GetService("TextService") 
 -- Interface Management
 local ArrayField = game:GetObjects("rbxassetid://13853811008")[1]
 ArrayField.Enabled = false
 local spawn = task.spawn
-local delay = task.delay
 
 --Studio
 if game["Run Service"]:IsStudio() then
@@ -163,7 +162,7 @@ local SearchBar = Main.Searchbar
 local Filler = SearchBar.CanvasGroup.Filler
 local Prompt = Main.Prompt
 local NotePrompt = Main.NotePrompt
-local InfoPrompt = ArrayField.Info
+
 
 ArrayField.DisplayOrder = 100
 LoadingFrame.Version.Text = Release
@@ -179,9 +178,7 @@ local Debounce = false
 local clicked = false
 local SearchHided = true
 local SideBarClosed = true
-local InfoPromptOpen = false
-local BarType = 'Side'
-local HoverTime = 0.3
+local BarType = 'Top'
 local Notifications = ArrayField.Notifications
 
 local SelectedTheme = ArrayFieldLibrary.Theme.Default
@@ -3297,7 +3294,7 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 	wait(0.1)
 	TweenService:Create(Topbar.Hide, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
 	wait(0.3)
-function Window:Prompt(PromptSettings)
+	function Window:Prompt(PromptSettings)
 		local PromptUI = Prompt.Prompt
 		Prompt.Visible = true
 		Prompt.BackgroundTransparency = 1
@@ -3320,6 +3317,7 @@ function Window:Prompt(PromptSettings)
 
 		if PromptSettings.Actions then
 			for name,info in pairs(PromptSettings.Actions) do
+				print(info)
 				local Button = PromptUI.Buttons.Template:Clone()
 				Button.TextLabel.Text = info.Name
 				Button.Interact.MouseButton1Up:Connect(function()
@@ -3328,7 +3326,7 @@ function Window:Prompt(PromptSettings)
 						clicked = true
 						if not Success then
 							ClosePrompt()
-							print("Rayfield | "..info.Name.." Callback Error " ..tostring(Response))
+							print("ArrayField | "..info.Name.." Callback Error " ..tostring(Response))
 						else
 							ClosePrompt()
 						end
@@ -3365,7 +3363,6 @@ function Window:Prompt(PromptSettings)
 	end
 	return Window
 end
-
 
 
 function ArrayFieldLibrary:Destroy()
