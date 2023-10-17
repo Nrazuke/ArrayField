@@ -3337,8 +3337,12 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				end)
 				Button.Name = name
 				Button.Parent = PromptUI.Buttons -- saving memory
-				Button.Size = UDim2.fromOffset(Button.TextLabel.TextBounds.X + 24, 30)
-				Button.Position = UDim2.new(20,0,0)
+				-- Calculate the X position to center the button
+				local buttonWidth = Button.TextLabel.TextBounds.X + 24
+				local middleX = (1 - buttonWidth) / 2
+
+				Button.Position = UDim2.new(UDim.new(middleX, 0), UDim.new(0, 0))
+				Button.Size = UDim2.fromOffset(buttonWidth, 30)
 			end
 		end
 
