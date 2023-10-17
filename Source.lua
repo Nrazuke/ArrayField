@@ -3310,15 +3310,17 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 		PromptUI.Buttons.Template.Visible = false
 		PromptUI.Buttons.Template.TextLabel.TextTransparency = 1
 		PromptUI.Buttons.Template.UIStroke.Transparency = 1
-		--PromptUI.Buttons.Middle.Visible = false
-		--PromptUI.Buttons.Middle.TextLabel.TextTransparency = 1
-		--PromptUI.Buttons.Middle.UIStroke.Transparency = 1
+		PromptUI.Buttons.Middle.Visible = false
+		PromptUI.Buttons.Middle.TextLabel.TextTransparency = 1
+		PromptUI.Buttons.Middle.UIStroke.Transparency = 1
 
 		PromptUI.Content.Text = PromptSettings.Content
 		PromptUI.Sub.Text = PromptSettings.SubTitle or ''
 		PromptUI.Title.Text = PromptSettings.Title or ''
 
 		if PromptSettings.Actions then
+			local totalButtonWidth = 0
+		
 			for name, info in pairs(PromptSettings.Actions) do
 				print(info)
 				local Button = PromptUI.Buttons.Template:Clone()
@@ -3337,12 +3339,27 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				end)
 				Button.Name = name
 				Button.Parent = PromptUI.Buttons -- saving memory
-				Button.Size = UDim2.fromOffset(Button.TextLabel.TextBounds.X + 24, 30)
-				
-				-- Center the button horizontally
-				Button.Position = UDim2.new(0.5, -Button.Size.X.Offset / 2, 0, 0)
+				local buttonWidth = Button.TextLabel.TextBounds.X + 24
+				Button.Size = UDim2.fromOffset(buttonWidth, 30)
+		
+				-- Update total button width
+				totalButtonWidth = totalButtonWidth + buttonWidth
 			end
-		end
+
+			    -- Calculate the horizontal position for centering
+				local centerX = totalButtonWidth / 2
+				local buttonPosition = UDim2.new(0.5, -centerX, 0, 0)
+			
+				for _, button in pairs(PromptUI.Buttons:GetChildren()) do
+					if button.Name ~= 'Template' and button.Name ~= 'Middle' and button:IsA('Frame') then
+						button.Visible = true
+						button.Position = buttonPosition
+						TweenService:Create(button.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+						TweenService:Create(button.TextLabel, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						wait(0.8)
+					end
+				end
+			end
 
 		TweenService:Create(Prompt, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = .5}):Play()
 		wait(.2)
@@ -3363,8 +3380,8 @@ function ArrayFieldLibrary:CreateWindow(Settings)
 				end
 			end
 		else
-			--TweenService:Create(PromptUI.Buttons.Middle.UIStroke,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
-			--TweenService:Create(PromptUI.Buttons.Middle.TextLabel,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			TweenService:Create(PromptUI.Buttons.Middle.UIStroke,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(PromptUI.Buttons.Middle.TextLabel,TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
 		end
 	end
 	return Window
