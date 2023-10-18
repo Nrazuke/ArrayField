@@ -241,15 +241,85 @@ local function AddDraggingFunctionality(DragPoint, Main)
 			if Input == DragInput and Dragging then
 				local Delta = Input.Position - MousePos
 				TweenService:Create(Main, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)}):Play()
+				TweenService:Create(InfoPrompt, TweenInfo.new(0.6, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X+ 370, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)}):Play()
 			end
 		end)
 	end)
 end
 
-local function FadeDescription(Infos)
-
+function BoolToText(Bool)
+	if Bool == true then
+		return 'ENABLED',Color3.fromRGB(44, 186, 44)
+	else
+		return 'DISABLED',Color3.fromRGB(186, 44, 44)
+	end
 end
 
+local function FadeDescription(Infos,type,Out:boolean?)
+	local Size = UDim2.fromOffset(230,275)
+	local Transparency = 0
+	local WaitTime = .05
+	if Out then
+		Size = UDim2.fromOffset(212,254)
+		Transparency = 1
+		WaitTime = nil
+	end
+	if not Out then
+		-- Set the Status
+		if type == 'slider' then
+			InfoPrompt.Status.Text = Infos.CurrentValue
+		elseif type == 'button' then
+			InfoPrompt.Status.Text = 'Clickable'
+		elseif type == 'toggle' then
+			InfoPrompt.Status.Text,InfoPrompt.Status.TextColor3 = BoolToText(Infos.CurrentValue)
+		elseif type == 'dropdown' then
+			--=| Do this |=--
+		elseif type == 'colorpicker' then
+			InfoPrompt.Status.Text = Infos.Color.R..Infos.Color.G..Infos.Color.B
+		end
+
+		if not Infos.Info.Image then
+			InfoPrompt.ImageLabel.Visible = false
+			InfoPrompt.Description.Position = InfoPrompt.ImageLabel.Position
+		else
+			InfoPrompt.ImageLabel.Visible = true
+			InfoPrompt.ImageLabel.Image = 'rbxassetid://'..Infos.Info.Image
+			InfoPrompt.Description.Position = UDim2.new(.5,0,0,160)
+		end
+
+		InfoPrompt.Title.Text = Infos.Info.Title
+		InfoPrompt.Description.Text = Infos.Info.Description
+	end
+	TweenService:Create(InfoPrompt,TweenInfo.new(.3,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{
+		Size = Size,BackgroundTransparency = Transparency
+	}):Play()
+	TweenService:Create(InfoPrompt.ImageLabel,TweenInfo.new(.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
+		ImageTransparency = Transparency
+	}):Play()
+	TweenService:Create(InfoPrompt.Description,TweenInfo.new(.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
+		TextTransparency = Transparency
+	}):Play()
+	TweenService:Create(InfoPrompt.Status,TweenInfo.new(.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
+		TextTransparency = Transparency
+	}):Play()
+	TweenService:Create(InfoPrompt.Title,TweenInfo.new(.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{
+		TextTransparency = Transparency
+	}):Play()
+end
+
+function AddInfos(Object:Frame,Settings,type)
+	--local Interact = Object:FindFirstChild('Interact') or Object:FindFirstChild('Main'):FindFirstChild('Interact')
+	Object.MouseEnter:Connect(function(input)
+		--if not (input.UserInputType == Enum.UserInputType.MouseButton2) then return end
+		if Settings and Settings.Info then
+			InfoPromptOpen = true
+			FadeDescription(Settings,type)
+		end
+	end)
+	Object.MouseLeave:Connect(function()
+		FadeDescription(nil,nil,true)
+	end)
+end
 local function PackColor(Color)
 	return {R = Color.R * 255, G = Color.G * 255, B = Color.B * 255}
 end    
@@ -761,8 +831,11 @@ function CloseSideBar()
 end
 function Hide()
 	if not SideBarClosed then
-		task.spawn(CloseSideBar)
+		spawn(CloseSideBar)
 	end
+	spawn(function()
+		FadeDescription(nil,true)
+	end)
 	Debounce = true
 	ArrayFieldLibrary:Notify({Title = "Interface Hidden", Content = "The interface has been hidden, you can unhide the interface by tapping K", Duration = 7})
 	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 400)}):Play()
@@ -800,8 +873,8 @@ function Hide()
 						else
 							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
 							pcall(function()
-							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
-				                        end)
+								TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							end)
 							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
 						end
 						for _, child in ipairs(element:GetChildren()) do
